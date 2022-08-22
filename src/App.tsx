@@ -19,6 +19,8 @@ export function App() {
 
     const newTodoList = [...toDoList, newTaskText];
     setToDoList(newTodoList);
+
+    setNewTaskText('');
   };
 
   function onDeleteTask(taskToDelete: string) {
