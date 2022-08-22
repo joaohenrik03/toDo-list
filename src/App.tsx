@@ -12,6 +12,8 @@ export function App() {
 
   const [newTaskText, setNewTaskText] = useState('');
 
+  const [completeTasks, setCompleteTasks] = useState(0);
+
   function handleAddNewTaskToList(event: FormEvent) {
     event.preventDefault();
 
@@ -25,6 +27,10 @@ export function App() {
     });
 
     setToDoList(newTodoList);
+  };
+
+  function onSetCompleteTasks(cont: number) {
+    setCompleteTasks(completeTasks + cont);
   };
 
   return (
@@ -58,14 +64,14 @@ export function App() {
             <div className={styles.createdTasks}>
               <strong>
                 Tarefas criadas 
-                <span>0</span>
+                <span>{toDoList.length}</span>
               </strong>
             </div>
 
             <div className={styles.completeTasks}>
               <strong>
                 Concluídas 
-                <span>0 de 0</span>
+                <span>{toDoList.length === 0 ? '0' : `${completeTasks} de ${toDoList.length}`}</span>
               </strong>
             </div>
           </header>   
@@ -91,6 +97,7 @@ export function App() {
                     <Task 
                       task={task}
                       onDeleteTask={onDeleteTask}
+                      onSetCompleteTasks={onSetCompleteTasks}
                     />
                   )
                 })  
