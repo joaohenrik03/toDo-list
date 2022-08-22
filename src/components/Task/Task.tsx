@@ -6,12 +6,17 @@ type TaskProps = {
     task: string;
     onDeleteTask: (task: string) => void;
     onSetCompleteTasks: (number: number) => void;
+    reduceTheNumberOfCompletedTasks: () => void;
 };
 
-export function Task({ task, onDeleteTask, onSetCompleteTasks }: TaskProps) {
+export function Task({ task, onDeleteTask, onSetCompleteTasks, reduceTheNumberOfCompletedTasks }: TaskProps) {
     const [thisTaskIsComplete, setThisTaskIsComplete] = useState(false);
 
     function handleDeleteTask() {
+        if (thisTaskIsComplete) {
+            reduceTheNumberOfCompletedTasks();
+        }
+
         onDeleteTask(task);
     };
 

@@ -33,6 +33,10 @@ export function App() {
     setCompleteTasks(completeTasks + cont);
   };
 
+  function onReduceTheNumberOfCompletedTasks() {
+    setCompleteTasks(completeTasks - 1);
+  };
+
   return (
     <>
       <Header />
@@ -95,9 +99,11 @@ export function App() {
                 toDoList.map(task => {
                   return (
                     <Task 
+                      key={task}
                       task={task}
                       onDeleteTask={onDeleteTask}
                       onSetCompleteTasks={onSetCompleteTasks}
+                      reduceTheNumberOfCompletedTasks={onReduceTheNumberOfCompletedTasks}
                     />
                   )
                 })  
