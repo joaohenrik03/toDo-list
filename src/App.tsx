@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Header } from "./components/Header/Header";
+import { Task } from "./components/Task/Task";
 
 import Clipboard from './assets/clipboard.png';
 import PlusIcon from './assets/plus.svg';
+
 import styles from './App.module.css';
 
 export function App() {
+  const [toDoList, setToDoList] = useState<string[]>(['12', '2']);
+
   return (
     <>
       <Header />
@@ -44,18 +49,30 @@ export function App() {
           </header>   
           
           <div className={styles.taskListContainer}>
-            <div className={styles.noTaskOnTheList}>
-              <img src={Clipboard} alt="Lista vazia" />
-              
-              <div>
-                <strong>
-                  Você ainda não tem tarefas cadastradas
-                </strong>
-                <span>
-                  Crie tarefas e organize seus itens a fazer
-                </span>
-              </div>
-            </div>
+            {
+              toDoList.length === 0 ? (
+                <div className={styles.noTaskOnTheList}>
+                  <img src={Clipboard} alt="Lista vazia" />
+
+                  <div>
+                    <strong>
+                      Você ainda não tem tarefas cadastradas
+                    </strong>
+                    <span>
+                      Crie tarefas e organize seus itens a fazer
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                toDoList.map(task => {
+                  return (
+                    <Task 
+                      task={task}
+                    />
+                  )
+                })  
+              )
+            }
           </div>
         </section>
       </main>
