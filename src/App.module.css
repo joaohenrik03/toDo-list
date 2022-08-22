@@ -103,3 +103,9 @@
     display: block;
     margin-top: 1.6rem;
 }
+
+@media (max-width: 375px) {
+    .form button, .form input {
+        padding: 1rem;
+    }
+}
