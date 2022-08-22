@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Header } from "./components/Header/Header";
 import { Task } from "./components/Task/Task";
 
@@ -10,16 +10,30 @@ import styles from './App.module.css';
 export function App() {
   const [toDoList, setToDoList] = useState<string[]>(['12', '2']);
 
+  const [newTaskText, setNewTaskText] = useState('');
+
+  function handleAddNewTaskToList(event: FormEvent) {
+    event.preventDefault();
+
+    const newTodoList = [...toDoList, newTaskText];
+    setToDoList(newTodoList);
+  };
+
   return (
     <>
       <Header />
 
       <main className={styles.main}>
-        <form className={styles.form}>
+        <form 
+          onSubmit={handleAddNewTaskToList} 
+          className={styles.form}
+        >
           <input 
             type="text" 
             placeholder='Adicione uma nova tarefa'
             required
+            onChange={(event) => setNewTaskText(event.target.value)}
+            value={newTaskText}
           />
 
           <button type='submit'>
