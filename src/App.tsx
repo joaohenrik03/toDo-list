@@ -19,6 +19,14 @@ export function App() {
     setToDoList(newTodoList);
   };
 
+  function onDeleteTask(taskToDelete: string) {
+    const newTodoList = toDoList.filter((task) => {
+      return task !== taskToDelete
+    });
+
+    setToDoList(newTodoList);
+  };
+
   return (
     <>
       <Header />
@@ -82,6 +90,7 @@ export function App() {
                   return (
                     <Task 
                       task={task}
+                      onDeleteTask={onDeleteTask}
                     />
                   )
                 })  

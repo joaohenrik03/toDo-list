@@ -3,9 +3,14 @@ import styles from './Task.module.css';
 
 type TaskProps = {
     task: string;
+    onDeleteTask: (task: string) => void;
 };
 
-export function Task({ task }: TaskProps) {
+export function Task({ task, onDeleteTask }: TaskProps) {
+    function handleDeleteTask() {
+        onDeleteTask(task);
+    }
+
     return (
         <div className={styles.taskBox}>
             <div 
@@ -17,6 +22,7 @@ export function Task({ task }: TaskProps) {
             <p>{task}</p>
 
             <button
+                onClick={handleDeleteTask}
             >
                 <Trash size={24} />
             </button>
