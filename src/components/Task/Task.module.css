@@ -1,4 +1,4 @@
-.taskBox {
+.taskBox, .taskBoxCompleted {
     display: flex;
     align-items: flex-start;
     gap: 1.2rem;
@@ -11,7 +11,12 @@
     border: 1px solid var(--gray-400);
 }
 
-.taskBox {
+.taskBoxCompleted .checkbox {
+    border: 1px solid var(--purple);
+    background-color: var(--purple);
+}
+
+.taskBox, .taskBoxCompleted + .taskBox, .taskBoxCompleted {
     margin-top: 1.4rem;
 }
 
@@ -28,11 +33,11 @@
     cursor: pointer;
 }
 
-.taskBox p {
+.taskBox p, .taskBoxCompleted p {
     flex: 1;
 }
 
-.taskBox button {
+.taskBox button, .taskBoxCompleted button {
     padding: 0.5rem;
     display: flex;
     align-items: center;
@@ -43,11 +48,25 @@
     color: var(--gray-300);
 }
 
+.taskBoxCompleted .checkbox div {
+    height: 2.4rem;
+    width: 2.4rem;
+    
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 10 7' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.43059 0.342123L4.09865 4.67406L1.61618 2.19159L0.780273 3.0275L4.09865 6.34587L9.26649 1.17803L8.43059 0.342123Z' fill='%23F2F2F2'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .checkbox div > span {
     visibility: hidden;
 }
 
-.taskBox button:hover {
+.taskBoxCompleted p {
+    text-decoration: line-through;
+    color: var(--gray-300);
+}
+
+.taskBox button:hover, .taskBoxCompleted button:hover {
     color: var(--danger);
     background-color: var(--gray-400);
 }
