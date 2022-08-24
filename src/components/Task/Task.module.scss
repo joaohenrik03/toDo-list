@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss';
+
 .taskBox, .taskBoxCompleted {
     display: flex;
     align-items: flex-start;
@@ -5,22 +7,22 @@
     
     padding: 1.6rem;
 
-    background-color: var(--gray-500);
+    background-color: variables.$gray-500;
     border-radius: 8px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
-    border: 1px solid var(--gray-400);
+    border: 1px solid variables.$gray-400;
 }
 
 .taskBoxCompleted .checkbox {
-    border: 1px solid var(--purple-dark);
-    background-color: var(--purple-dark);
+    border: 1px solid variables.$purple-dark;
+    background-color: variables.$purple-dark;
     cursor: not-allowed;
     transition: 0.2s;
-}
 
-.taskBoxCompleted .checkbox:hover {
-    border: 1px solid var(--purple);
-    background-color: var(--purple);
+    &:hover {
+        border: 1px solid variables.$purple;
+        background-color: variables.$purple;
+    }
 }
 
 .taskBox, .taskBoxCompleted + .taskBox, .taskBoxCompleted {
@@ -35,14 +37,14 @@
     align-items: center;
     justify-content: center;
 
-    border: 1px solid var(--blue);
+    border: 1px solid variables.$blue;
     border-radius: 50%;
     cursor: pointer;
     transition: 0.2s;
-}
 
-.checkbox:hover {
-    border: 1px solid var(--blue-dark);
+    &:hover {
+        border: 1px solid variables.$blue-dark;
+    }
 }
 
 .taskBox p, .taskBoxCompleted p {
@@ -57,7 +59,7 @@
 
     border-radius: 4px;
     background-color: transparent;
-    color: var(--gray-300);
+    color: variables.$gray-300;
     transition: 0.2s;
 }
 
@@ -76,10 +78,10 @@
 
 .taskBoxCompleted p {
     text-decoration: line-through;
-    color: var(--gray-300);
+    color: variables.$gray-300;
 }
 
 .taskBox button:hover, .taskBoxCompleted button:hover {
-    color: var(--danger);
-    background-color: var(--gray-400);
+    color: variables.$danger;
+    background-color: variables.$gray-400;
 }

@@ -7,7 +7,7 @@ import { Task } from "./components/Task/Task";
 import Clipboard from "./assets/clipboard.png";
 import PlusIcon from "./assets/plus.svg";
 
-import styles from "./App.module.css";
+import styles from "./App.module.scss";
 
 type NewTaskTextData = {
   newTaskText: string;

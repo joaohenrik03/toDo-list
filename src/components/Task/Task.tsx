@@ -1,6 +1,6 @@
 import { Trash } from 'phosphor-react';
 import { useState } from 'react';
-import styles from './Task.module.css';
+import styles from './Task.module.scss';
 
 type TaskProps = {
     task: string;

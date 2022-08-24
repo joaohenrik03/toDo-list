@@ -1,0 +1,114 @@
+@use './styles/variables.scss';
+
+.main {
+    width: min(736px, 90%);
+    margin: -2.7rem auto 6.4rem auto;
+}
+
+.form {
+    height: 5.4rem;
+    margin-bottom: 6.4rem;
+
+    display: flex;
+    gap: 0.8rem;
+
+    button,
+    input {
+        font-family: 'Inter', sans-serif;
+        color: variables.$gray-100;
+        line-height: 140%;
+
+        padding: 1.6rem;
+
+        border-radius: 8px;
+
+        @media (max-width: 375px) {
+            padding: 1rem;
+        }
+    }
+
+    input {
+        flex: 1;
+
+        border: 1px solid variables.$gray-700;
+        background-color: variables.$gray-500;
+
+        &::placeholder {
+            color: variables.$gray-300;
+        }
+
+        &:focus {
+            outline: 0;
+            border-color: variables.$purple-dark;
+        }
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+
+        font-size: 1.4rem;
+
+        background-color: variables.$blue-dark;
+        transition: background 0.2s;
+
+        &:hover {
+            background: variables.$blue;
+        }
+    }
+}
+
+.header {
+    width: 100%;
+    margin-bottom: 2.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.createdTasks strong,
+.completeTasks strong {
+    font-size: 1.4rem;
+}
+
+.createdTasks strong {
+    color: variables.$blue;
+}
+
+.completeTasks strong {
+    color: variables.$purple;
+}
+
+.createdTasks span,
+.completeTasks span {
+    color: variables.$gray-100;
+    font-size: 1.2rem;
+
+    background-color: variables.$gray-400;
+    border-radius: 999px;
+
+    padding: 2px 8px;
+    margin-left: 0.8rem;
+}
+
+.taskListContainer {
+    border-top: 1px solid variables.$gray-400;
+    border-radius: 8px;
+
+    width: 100%;
+}
+
+.noTaskOnTheList {
+    margin-top: 6.4rem;
+    width: 100%;
+
+    text-align: center;
+    color: variables.$gray-300;
+
+    strong {
+        display: block;
+        margin-top: 1.6rem;
+    }
+}
