@@ -1,26 +1,30 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { Header } from "./components/Header/Header";
 import { Task } from "./components/Task/Task";
 
-import Clipboard from './assets/clipboard.png';
-import PlusIcon from './assets/plus.svg';
+import Clipboard from "./assets/clipboard.png";
+import PlusIcon from "./assets/plus.svg";
 
-import styles from './App.module.css';
+import styles from "./App.module.css";
+
+type NewTaskTextData = {
+  newTaskText: string;
+};
 
 export function App() {
-  const [toDoList, setToDoList] = useState<string[]>(['12', '2']);
+  const { register, handleSubmit, reset } = useForm<NewTaskTextData>();
 
-  const [newTaskText, setNewTaskText] = useState('');
+  const [toDoList, setToDoList] = useState<string[]>([]);
 
   const [completeTasks, setCompleteTasks] = useState(0);
 
-  function handleAddNewTaskToList(event: FormEvent) {
-    event.preventDefault();
-
-    const newTodoList = [...toDoList, newTaskText];
+  function handleAddNewTaskToList(data: NewTaskTextData) {
+    const newTodoList = [...toDoList, data.newTaskText];
     setToDoList(newTodoList);
 
-    setNewTaskText('');
+    reset();
   };
 
   function onDeleteTask(taskToDelete: string) {
@@ -45,15 +49,14 @@ export function App() {
 
       <main className={styles.main}>
         <form 
-          onSubmit={handleAddNewTaskToList} 
+          onSubmit={handleSubmit(handleAddNewTaskToList)} 
           className={styles.form}
         >
           <input 
             type="text" 
             placeholder='Adicione uma nova tarefa'
             required
-            onChange={(event) => setNewTaskText(event.target.value)}
-            value={newTaskText}
+            {...register('newTaskText', { required: true })}
           />
 
           <button type='submit'>
