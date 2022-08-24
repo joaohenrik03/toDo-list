@@ -12,6 +12,13 @@
 }
 
 .taskBoxCompleted .checkbox {
+    border: 1px solid var(--purple-dark);
+    background-color: var(--purple-dark);
+    cursor: not-allowed;
+    transition: 0.2s;
+}
+
+.taskBoxCompleted .checkbox:hover {
     border: 1px solid var(--purple);
     background-color: var(--purple);
 }
@@ -31,6 +38,11 @@
     border: 1px solid var(--blue);
     border-radius: 50%;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.checkbox:hover {
+    border: 1px solid var(--blue-dark);
 }
 
 .taskBox p, .taskBoxCompleted p {
@@ -46,6 +58,7 @@
     border-radius: 4px;
     background-color: transparent;
     color: var(--gray-300);
+    transition: 0.2s;
 }
 
 .taskBoxCompleted .checkbox div {
