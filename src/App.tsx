@@ -21,8 +21,7 @@ export function App() {
   const [completeTasks, setCompleteTasks] = useState(0);
 
   function handleAddNewTaskToList(data: NewTaskTextData) {
-    const newTodoList = [...toDoList, data.newTaskText];
-    setToDoList(newTodoList);
+    setToDoList((prevState) => [...prevState, data.newTaskText]);
 
     reset();
   };
@@ -36,11 +35,11 @@ export function App() {
   };
 
   function onSetCompleteTasks(cont: number) {
-    setCompleteTasks(completeTasks + cont);
+    setCompleteTasks((prevState) => (prevState + cont));
   };
 
   function onReduceTheNumberOfCompletedTasks() {
-    setCompleteTasks(completeTasks - 1);
+    setCompleteTasks((prevState) => (prevState - 1));
   };
 
   return (
