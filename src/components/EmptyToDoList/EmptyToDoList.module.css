@@ -1,0 +1,22 @@
+.emptyToDoList {
+  padding: 6.4rem 2.4rem;
+
+  text-align: center;
+
+  border-radius: 6px;
+  border-top: 1px solid var(--gray-400);
+}
+
+.emptyToDoList img {
+  margin-bottom: 1.6rem;
+  max-height: 5.6rem;
+}
+
+.emptyToDoList p {
+  color: var(--gray-300);
+}
+
+.emptyToDoList span {
+  display: block;
+  font-weight: 700;
+}

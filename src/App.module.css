@@ -1,0 +1,94 @@
+.main {
+  width: 100%;
+  max-width: 74rem;
+  margin-inline: auto;
+  
+}
+
+.form {
+  margin-top: -2.7rem;
+  margin-bottom: 6.4rem;
+
+  height: 5.4rem;
+
+  display: flex;
+  gap: 0.8rem;
+}
+
+.form input, .form button[type="submit"] {
+  border-radius: 8px;
+  padding: 1.6rem;
+}
+
+.form input {
+  flex: 1;
+
+  color: var(--gray-100);
+  font-size: 1.6rem;
+
+  background-color: var(--gray-500);
+}
+
+.form input::placeholder {
+  color: var(--gray-300);
+}
+
+.form button[type="submit"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+
+  color: var(--gray-100);
+  font-weight: 700;
+  font-size: 1.4rem;
+  list-style: 140%;
+
+  background-color: var(--blue-dark);
+  transition: background-color 0.2s;
+}
+
+.form button[type="submit"]:hover {
+  background-color: var(--blue);
+}
+
+.tasksBox {
+  margin-bottom: 1.2rem;
+}
+
+.tasksBox header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 2.4rem;
+}
+
+.tasksBox header p {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.tasksBox header div {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.tasksBox header div:first-child p {
+  color: var(--blue);
+}
+
+.tasksBox header div:last-child p {
+  color: var(--purple);
+}
+
+.tasksBox header div span {
+  padding: 0.2rem 0.8rem;
+
+  color: var(--gray-200);
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  background-color: var(--gray-400);
+  border-radius: 999px;
+}

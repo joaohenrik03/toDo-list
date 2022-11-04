@@ -1,46 +1,79 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { Header } from "./components/Header/Header"
+import { EmptyToDoList } from "./components/EmptyToDoList/EmptyToDoList"
+import { Task } from "./components/Task/Task"
 
-import { Header } from "./components/Header/Header";
-import { Task } from "./components/Task/Task";
+import { PlusCircle } from 'phosphor-react'
 
-import Clipboard from "./assets/clipboard.png";
-import PlusIcon from "./assets/plus.svg";
+import styles from './App.module.css'
 
-import styles from "./App.module.scss";
-
-type NewTaskTextData = {
-  newTaskText: string;
-};
+export interface TasksType {
+  text: string;
+  status: string;
+}
 
 export function App() {
-  const { register, handleSubmit, reset } = useForm<NewTaskTextData>();
+  const [ tasks, setTasks ] = useState<TasksType[]>(() => {
+    const tasksStorage = localStorage.getItem("@to-do:tasks-2.0.0")   
 
-  const [toDoList, setToDoList] = useState<string[]>([]);
+    if (tasksStorage) {
+      return JSON.parse(tasksStorage)
+    } else {
+      return []
+    }
+  })
 
-  const [completeTasks, setCompleteTasks] = useState(0);
+  const [ newTaskText, setNewTaskText ] = useState('')
 
-  function handleAddNewTaskToList(data: NewTaskTextData) {
-    setToDoList((prevState) => [...prevState, data.newTaskText]);
+  const [ completedTasks, setCompletedTasks ] = useState(0)
 
-    reset();
-  };
+  useEffect(() => {
+    const tasksJson = JSON.stringify(tasks)
 
-  function onDeleteTask(taskToDelete: string) {
-    const newTodoList = toDoList.filter((task) => {
-      return task !== taskToDelete
-    });
+    localStorage.setItem("@to-do:tasks-2.0.0", tasksJson)
+  }, [tasks])
 
-    setToDoList(newTodoList);
-  };
+  function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
+    setNewTaskText(event.target.value)
+  }
 
-  function onSetCompleteTasks(cont: number) {
-    setCompleteTasks((prevState) => (prevState + cont));
-  };
+  function handleCreateNewTask(event: FormEvent) {
+    event.preventDefault()
 
-  function onReduceTheNumberOfCompletedTasks() {
-    setCompleteTasks((prevState) => (prevState - 1));
-  };
+    const newTask = {
+      text: newTaskText,
+      status: 'progress',
+    }
+
+    setTasks((prevState) => [...prevState, newTask])
+
+    setNewTaskText('')
+  }
+
+  function onDeleteTask(taskToDelete: string, taskStatusToDelete: string) {
+    const newTasksList = tasks.filter(task => {
+      if (task.text !== taskToDelete) {
+        return task
+      }
+    })
+
+    setTasks(newTasksList)
+    
+    if (taskStatusToDelete === 'complete') {
+      setCompletedTasks((prevState) => prevState - 1)
+    }
+  }
+
+  function onSetCompletedTasks(setTheTaskStatusTo: 'add' | 'remove') {
+    switch (setTheTaskStatusTo) {
+      case 'add':
+        setCompletedTasks((prevState) => prevState + 1)
+        break
+      case 'remove':
+        setCompletedTasks((prevState) => prevState - 1)
+        break
+    }
+  }
 
   return (
     <>
@@ -48,72 +81,49 @@ export function App() {
 
       <main className={styles.main}>
         <form 
-          onSubmit={handleSubmit(handleAddNewTaskToList)} 
+          onSubmit={handleCreateNewTask}
           className={styles.form}
         >
           <input 
-            type="text" 
-            placeholder='Adicione uma nova tarefa'
-            required
-            {...register('newTaskText', { required: true })}
+            type="text"          
+            placeholder="Adicione uma nova tarefa"
+            value={newTaskText}
+            onChange={handleChangeNewTaskText}
           />
 
-          <button type='submit'>
+          <button type="submit">
             Criar
-            <img 
-              src={PlusIcon} 
-              alt="+" 
-            />
+            <PlusCircle size={18} />
           </button>
-        </form>  
+        </form>
 
-        <section>
-          <header className={styles.header}>
-            <div className={styles.createdTasks}>
-              <strong>
-                Tarefas criadas 
-                <span>{toDoList.length}</span>
-              </strong>
+        <section className={styles.tasksBox}>
+          <header>
+            <div>
+              <p>Tarefas criadas</p>
+              <span>{tasks.length}</span>
             </div>
 
-            <div className={styles.completeTasks}>
-              <strong>
-                Concluídas 
-                <span>{toDoList.length === 0 ? '0' : `${completeTasks} de ${toDoList.length}`}</span>
-              </strong>
+            <div>
+              <p>Concluídas</p>
+              <span>{completedTasks}</span>
             </div>
-          </header>   
-          
-          <div className={styles.taskListContainer}>
-            {
-              toDoList.length === 0 ? (
-                <div className={styles.noTaskOnTheList}>
-                  <img src={Clipboard} alt="Lista vazia" />
+          </header>  
 
-                  <div>
-                    <strong>
-                      Você ainda não tem tarefas cadastradas
-                    </strong>
-                    <span>
-                      Crie tarefas e organize seus itens a fazer
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                toDoList.map(task => {
-                  return (
-                    <Task 
-                      key={task}
-                      task={task}
-                      onDeleteTask={onDeleteTask}
-                      onSetCompleteTasks={onSetCompleteTasks}
-                      reduceTheNumberOfCompletedTasks={onReduceTheNumberOfCompletedTasks}
-                    />
-                  )
-                })  
-              )
-            }
-          </div>
+          {
+            tasks.length === 0 ? (
+              <EmptyToDoList />
+            ) : (
+              tasks.map(currentTask => (
+                <Task 
+                  task={currentTask}
+                  key={currentTask.text}
+                  onDeleteTask={onDeleteTask}
+                  handleSetCompletedTasks={onSetCompletedTasks}
+                />  
+              ))
+            )
+          }
         </section>
       </main>
     </>

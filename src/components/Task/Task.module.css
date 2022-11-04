@@ -1,0 +1,88 @@
+.task, .taskComplete {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+
+  padding: 1.6rem;
+
+  background-color: var(--gray-500);
+  border-radius: 8px;
+}
+
+.task:not(:first-child), .taskComplete:not(:first-child) {
+  margin-top: 1.2rem;
+}
+
+.checkbox {
+  width: 2.4rem;
+  height: 2.4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--blue);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checkbox:hover {
+  border: 1px solid var(--blue-dark);
+}
+
+.taskComplete .checkbox {
+  border: 1px solid var(--purple-dark);
+  background-color: var(--purple-dark);
+  transition: 0.2s;
+}
+
+.taskComplete .checkbox:hover {
+  border: 1px solid var(--purple);
+  background-color: var(--purple);
+}
+
+.taskComplete .checkbox div {
+  height: 2.4rem;
+  width: 2.4rem;
+  
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 10 7' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.43059 0.342123L4.09865 4.67406L1.61618 2.19159L0.780273 3.0275L4.09865 6.34587L9.26649 1.17803L8.43059 0.342123Z' fill='%23F2F2F2'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.checkbox div > span {
+  visibility: hidden;
+}
+
+.task p, .taskComplete p {
+  flex: 1;
+
+  font-size: 1.4rem;
+  line-height: 140%;
+  color: var(--gray-100);
+  text-align: left;
+}
+
+.taskComplete p {
+  color: var(--gray-300);
+  text-decoration: line-through;
+}
+
+.deleteTaskButton {
+  background: transparent;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.5rem;
+
+  color: var(--gray-300);
+}
+
+.deleteTaskButton:hover {
+  color: var(--danger);
+  background-color: var(--gray-400);
+}
