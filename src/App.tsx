@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, InvalidEvent, useEffect, useState } from "react"
 import { Header } from "./components/Header/Header"
 import { EmptyToDoList } from "./components/EmptyToDoList/EmptyToDoList"
 import { Task } from "./components/Task/Task"
@@ -34,6 +34,7 @@ export function App() {
   }, [tasks])
 
   function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
+    event.target.setCustomValidity('')
     setNewTaskText(event.target.value)
   }
 
@@ -48,6 +49,10 @@ export function App() {
     setTasks((prevState) => [...prevState, newTask])
 
     setNewTaskText('')
+  }
+
+  function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>) {
+    event.target.setCustomValidity('Preencha o campo com uma tarefa!')
   }
 
   function onDeleteTask(taskToDelete: string, taskStatusToDelete: string) {
@@ -85,10 +90,12 @@ export function App() {
           className={styles.form}
         >
           <input 
+            required
             type="text"          
             placeholder="Adicione uma nova tarefa"
             value={newTaskText}
             onChange={handleChangeNewTaskText}
+            onInvalid={handleNewTaskInvalid}
           />
 
           <button type="submit">
