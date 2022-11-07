@@ -9,7 +9,7 @@ import styles from './App.module.css'
 
 export interface TasksType {
   text: string;
-  status: string;
+  isComplete: boolean;
 }
 
 export function App() {
@@ -43,7 +43,7 @@ export function App() {
 
     const newTask = {
       text: newTaskText,
-      status: 'progress',
+      isComplete: false,
     }
 
     setTasks((prevState) => [...prevState, newTask])
@@ -55,7 +55,7 @@ export function App() {
     event.target.setCustomValidity('Preencha o campo com uma tarefa!')
   }
 
-  function onDeleteTask(taskToDelete: string, taskStatusToDelete: string) {
+  function onDeleteTask(taskToDelete: string, isComplete: boolean) {
     const newTasksList = tasks.filter(task => {
       if (task.text !== taskToDelete) {
         return task
@@ -64,9 +64,20 @@ export function App() {
 
     setTasks(newTasksList)
     
-    if (taskStatusToDelete === 'complete') {
+    if (isComplete) {
       setCompletedTasks((prevState) => prevState - 1)
     }
+  }
+
+  function onUpdateTaskList(taskText: string) {
+    const taskIndex = tasks.findIndex(task => {
+      return task.text === taskText
+    })
+
+    const tempTasks = [...tasks]
+    tempTasks[taskIndex].isComplete = !tempTasks[taskIndex].isComplete
+
+    setTasks(tempTasks)
   }
 
   function onSetCompletedTasks(setTheTaskStatusTo: 'add' | 'remove') {
@@ -126,6 +137,7 @@ export function App() {
                   task={currentTask}
                   key={currentTask.text}
                   onDeleteTask={onDeleteTask}
+                  onUpdateTaskList={onUpdateTaskList}
                   handleSetCompletedTasks={onSetCompletedTasks}
                 />  
               ))

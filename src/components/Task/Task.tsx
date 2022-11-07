@@ -7,24 +7,28 @@ import { TasksType } from '../../App'
 
 interface TaskProps {
   task: TasksType;
-  onDeleteTask: (taskToDelete: string, taskStatusToDelete: string) => void;
+  onDeleteTask: (taskToDelete: string, isComplete: boolean) => void;
+  onUpdateTaskList: (taskText: string) => void;
   handleSetCompletedTasks: (setTheTaskStatusTo: 'add' | 'remove') => void;
 }
 
-export function Task({ task, onDeleteTask, handleSetCompletedTasks }: TaskProps) {
-  const [ taskStatus, setTaskStatus ] = useState(task.status)
+export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTaskList }: TaskProps) {
+  const [ taskStatus, setTaskStatus ] = useState(task.isComplete)
 
   function handleStatusTaskChange() {
-    switch (taskStatus) {
-      case 'progress':
-        setTaskStatus('complete')
+    if (!taskStatus) {
+        setTaskStatus(true)
         handleSetCompletedTasks('add')
-        break
-      case 'complete':
-        setTaskStatus('progress')
+    } else if (taskStatus) {
+        setTaskStatus(false)
         handleSetCompletedTasks('remove')
-        break
-    } 
+    }
+
+    handleUpdateTaskList()
+  }
+
+  function handleUpdateTaskList() {
+    onUpdateTaskList(task.text)
   }
 
   function handleDeleteTask() {
@@ -32,7 +36,7 @@ export function Task({ task, onDeleteTask, handleSetCompletedTasks }: TaskProps)
   }
 
   return (
-    <div className={taskStatus === 'complete' ? styles.taskComplete : styles.task }>
+    <div className={taskStatus ? styles.taskComplete : styles.task }>
       <div 
         className={styles.checkbox}
         onClick={handleStatusTaskChange}
