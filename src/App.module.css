@@ -1,8 +1,8 @@
 .main {
   width: 100%;
-  max-width: 74rem;
+  max-width: 75.6rem;
   margin-inline: auto;
-  
+  padding-inline: 1.6rem;
 }
 
 .form {
@@ -91,4 +91,11 @@
 
   background-color: var(--gray-400);
   border-radius: 999px;
+}
+
+@media (max-width: 360px) {
+  
+  .form input {
+    width: 90%;
+  }
 }
