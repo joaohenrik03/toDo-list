@@ -138,7 +138,15 @@ export function App() {
 
             <div>
               <p>Concluídas</p>
-              <span>{completedTaskCounter}</span>
+              <span>
+                {
+                  tasks.length > 0 ? (
+                    `${completedTaskCounter} de ${tasks.length}`
+                  ) : (
+                    `${completedTaskCounter}`
+                  )
+                }
+              </span>
             </div>
           </header>  
 
