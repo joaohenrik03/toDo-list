@@ -23,15 +23,29 @@ export function App() {
     }
   })
 
-  const [ newTaskText, setNewTaskText ] = useState('')
+  const [ completedTasks, setCompletedTasks ] = useState(() => {
+    const completedTasksStorage = localStorage.getItem("@to-do:completedTasks-2.0.0")   
 
-  const [ completedTasks, setCompletedTasks ] = useState(0)
+    if (completedTasksStorage) {
+      return JSON.parse(completedTasksStorage)
+    } else {
+      return 0
+    }
+  })
+
+  const [ newTaskText, setNewTaskText ] = useState('')
 
   useEffect(() => {
     const tasksJson = JSON.stringify(tasks)
 
     localStorage.setItem("@to-do:tasks-2.0.0", tasksJson)
   }, [tasks])
+
+  useEffect(() => {
+    const completedTasksJson = JSON.stringify(completedTasks)  
+
+    localStorage.setItem("@to-do:completedTasks-2.0.0", completedTasksJson)
+  }, [completedTasks])
 
   function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
     event.target.setCustomValidity('')
@@ -65,7 +79,7 @@ export function App() {
     setTasks(newTasksList)
     
     if (isComplete) {
-      setCompletedTasks((prevState) => prevState - 1)
+      setCompletedTasks((prevState: number) => prevState - 1)
     }
   }
 
@@ -83,10 +97,10 @@ export function App() {
   function onSetCompletedTasks(setTheTaskStatusTo: 'add' | 'remove') {
     switch (setTheTaskStatusTo) {
       case 'add':
-        setCompletedTasks((prevState) => prevState + 1)
+        setCompletedTasks((prevState: number) => prevState + 1)
         break
       case 'remove':
-        setCompletedTasks((prevState) => prevState - 1)
+        setCompletedTasks((prevState: number) => prevState - 1)
         break
     }
   }
