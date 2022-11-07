@@ -8,26 +8,26 @@ import { PlusCircle } from 'phosphor-react'
 import styles from './App.module.css'
 
 export interface TasksType {
-  text: string;
+  content: string;
   isComplete: boolean;
 }
 
 export function App() {
   const [ tasks, setTasks ] = useState<TasksType[]>(() => {
-    const tasksStorage = localStorage.getItem("@to-do:tasks-2.0.0")   
+    const tasksInLocalStorage = localStorage.getItem("@to-do:tasks-2.0.0")   
 
-    if (tasksStorage) {
-      return JSON.parse(tasksStorage)
+    if (tasksInLocalStorage) {
+      return JSON.parse(tasksInLocalStorage)
     } else {
       return []
     }
   })
 
-  const [ completedTasks, setCompletedTasks ] = useState(() => {
-    const completedTasksStorage = localStorage.getItem("@to-do:completedTasks-2.0.0")   
+  const [ completedTaskCounter, setCompletedTaskCounter ] = useState(() => {
+    const completedTasksCounterInLocalStorage = localStorage.getItem("@to-do:completedTasks-2.0.0")   
 
-    if (completedTasksStorage) {
-      return JSON.parse(completedTasksStorage)
+    if (completedTasksCounterInLocalStorage) {
+      return JSON.parse(completedTasksCounterInLocalStorage)
     } else {
       return 0
     }
@@ -42,10 +42,10 @@ export function App() {
   }, [tasks])
 
   useEffect(() => {
-    const completedTasksJson = JSON.stringify(completedTasks)  
+    const completedTaskCounterJson = JSON.stringify(completedTaskCounter)  
 
-    localStorage.setItem("@to-do:completedTasks-2.0.0", completedTasksJson)
-  }, [completedTasks])
+    localStorage.setItem("@to-do:completedTasks-2.0.0", completedTaskCounterJson)
+  }, [completedTaskCounter])
 
   function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
     event.target.setCustomValidity('')
@@ -56,7 +56,7 @@ export function App() {
     event.preventDefault()
 
     const newTask = {
-      text: newTaskText,
+      content: newTaskText,
       isComplete: false,
     }
 
@@ -71,7 +71,7 @@ export function App() {
 
   function onDeleteTask(taskToDelete: string, isComplete: boolean) {
     const newTasksList = tasks.filter(task => {
-      if (task.text !== taskToDelete) {
+      if (task.content !== taskToDelete) {
         return task
       }
     })
@@ -79,13 +79,13 @@ export function App() {
     setTasks(newTasksList)
     
     if (isComplete) {
-      setCompletedTasks((prevState: number) => prevState - 1)
+      setCompletedTaskCounter((prevState: number) => prevState - 1)
     }
   }
 
-  function onUpdateTaskList(taskText: string) {
+  function onUpdateTaskList(taskContent: string) {
     const taskIndex = tasks.findIndex(task => {
-      return task.text === taskText
+      return task.content === taskContent
     })
 
     const tempTasks = [...tasks]
@@ -97,10 +97,10 @@ export function App() {
   function onSetCompletedTasks(setTheTaskStatusTo: 'add' | 'remove') {
     switch (setTheTaskStatusTo) {
       case 'add':
-        setCompletedTasks((prevState: number) => prevState + 1)
+        setCompletedTaskCounter((prevState: number) => prevState + 1)
         break
       case 'remove':
-        setCompletedTasks((prevState: number) => prevState - 1)
+        setCompletedTaskCounter((prevState: number) => prevState - 1)
         break
     }
   }
@@ -138,7 +138,7 @@ export function App() {
 
             <div>
               <p>Concluídas</p>
-              <span>{completedTasks}</span>
+              <span>{completedTaskCounter}</span>
             </div>
           </header>  
 
@@ -149,7 +149,7 @@ export function App() {
               tasks.map(currentTask => (
                 <Task 
                   task={currentTask}
-                  key={currentTask.text}
+                  key={currentTask.content}
                   onDeleteTask={onDeleteTask}
                   onUpdateTaskList={onUpdateTaskList}
                   handleSetCompletedTasks={onSetCompletedTasks}

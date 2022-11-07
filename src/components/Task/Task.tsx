@@ -13,14 +13,14 @@ interface TaskProps {
 }
 
 export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTaskList }: TaskProps) {
-  const [ taskStatus, setTaskStatus ] = useState(task.isComplete)
+  const [ taskIsComplete, setTaskIsComplete ] = useState(task.isComplete)
 
   function handleStatusTaskChange() {
-    if (!taskStatus) {
-        setTaskStatus(true)
+    if (!taskIsComplete) {
+        setTaskIsComplete(true)
         handleSetCompletedTasks('add')
-    } else if (taskStatus) {
-        setTaskStatus(false)
+    } else if (taskIsComplete) {
+        setTaskIsComplete(false)
         handleSetCompletedTasks('remove')
     }
 
@@ -28,15 +28,15 @@ export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTask
   }
 
   function handleUpdateTaskList() {
-    onUpdateTaskList(task.text)
+    onUpdateTaskList(task.content)
   }
 
   function handleDeleteTask() {
-    onDeleteTask(task.text, taskStatus)
+    onDeleteTask(task.content, taskIsComplete)
   }
 
   return (
-    <div className={taskStatus ? styles.taskComplete : styles.task }>
+    <div className={taskIsComplete ? styles.taskComplete : styles.task }>
       <div 
         className={styles.checkbox}
         onClick={handleStatusTaskChange}
@@ -45,7 +45,7 @@ export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTask
       </div>
 
       <p>
-        {task.text}
+        {task.content}
       </p>  
 
       <button
