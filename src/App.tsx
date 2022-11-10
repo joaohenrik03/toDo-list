@@ -1,20 +1,26 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useEffect, useState } from "react"
-import { Header } from "./components/Header/Header"
-import { EmptyToDoList } from "./components/EmptyToDoList/EmptyToDoList"
-import { Task } from "./components/Task/Task"
+import {
+  ChangeEvent,
+  FormEvent,
+  InvalidEvent,
+  useEffect,
+  useState,
+} from 'react'
+import { Header } from './components/Header/Header'
+import { EmptyToDoList } from './components/EmptyToDoList/EmptyToDoList'
+import { Task } from './components/Task/Task'
 
 import { PlusCircle } from 'phosphor-react'
 
 import styles from './App.module.css'
 
 export interface TasksType {
-  content: string;
-  isComplete: boolean;
+  content: string
+  isComplete: boolean
 }
 
 export function App() {
-  const [ tasks, setTasks ] = useState<TasksType[]>(() => {
-    const tasksInLocalStorage = localStorage.getItem("@to-do:tasks-2.0.0")   
+  const [tasks, setTasks] = useState<TasksType[]>(() => {
+    const tasksInLocalStorage = localStorage.getItem('@to-do:tasks-2.0.0')
 
     if (tasksInLocalStorage) {
       return JSON.parse(tasksInLocalStorage)
@@ -23,8 +29,10 @@ export function App() {
     }
   })
 
-  const [ completedTaskCounter, setCompletedTaskCounter ] = useState(() => {
-    const completedTasksCounterInLocalStorage = localStorage.getItem("@to-do:completedTasks-2.0.0")   
+  const [completedTaskCounter, setCompletedTaskCounter] = useState(() => {
+    const completedTasksCounterInLocalStorage = localStorage.getItem(
+      '@to-do:completedTasks-2.0.0',
+    )
 
     if (completedTasksCounterInLocalStorage) {
       return JSON.parse(completedTasksCounterInLocalStorage)
@@ -33,18 +41,21 @@ export function App() {
     }
   })
 
-  const [ newTaskText, setNewTaskText ] = useState('')
+  const [newTaskText, setNewTaskText] = useState('')
 
   useEffect(() => {
     const tasksJson = JSON.stringify(tasks)
 
-    localStorage.setItem("@to-do:tasks-2.0.0", tasksJson)
+    localStorage.setItem('@to-do:tasks-2.0.0', tasksJson)
   }, [tasks])
 
   useEffect(() => {
-    const completedTaskCounterJson = JSON.stringify(completedTaskCounter)  
+    const completedTaskCounterJson = JSON.stringify(completedTaskCounter)
 
-    localStorage.setItem("@to-do:completedTasks-2.0.0", completedTaskCounterJson)
+    localStorage.setItem(
+      '@to-do:completedTasks-2.0.0',
+      completedTaskCounterJson,
+    )
   }, [completedTaskCounter])
 
   function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
@@ -70,21 +81,21 @@ export function App() {
   }
 
   function onDeleteTask(taskToDelete: string, isComplete: boolean) {
-    const newTasksList = tasks.filter(task => {
+    const newTasksList = tasks.filter((task) => {
       if (task.content !== taskToDelete) {
         return task
       }
     })
 
     setTasks(newTasksList)
-    
+
     if (isComplete) {
       setCompletedTaskCounter((prevState: number) => prevState - 1)
     }
   }
 
   function onUpdateTaskList(taskContent: string) {
-    const taskIndex = tasks.findIndex(task => {
+    const taskIndex = tasks.findIndex((task) => {
       return task.content === taskContent
     })
 
@@ -110,13 +121,10 @@ export function App() {
       <Header />
 
       <main className={styles.main}>
-        <form 
-          onSubmit={handleCreateNewTask}
-          className={styles.form}
-        >
-          <input 
+        <form onSubmit={handleCreateNewTask} className={styles.form}>
+          <input
             required
-            type="text"          
+            type="text"
             placeholder="Adicione uma nova tarefa"
             value={newTaskText}
             onChange={handleChangeNewTaskText}
@@ -140,31 +148,27 @@ export function App() {
               <p>Concluídas</p>
               <span>
                 {
-                  tasks.length > 0 ? (
-                    `${completedTaskCounter} de ${tasks.length}`
-                  ) : (
-                    `${completedTaskCounter}`
-                  )
+                  tasks.length > 0
+                  ? `${completedTaskCounter} de ${tasks.length}`
+                  : `${completedTaskCounter}`
                 }
               </span>
             </div>
-          </header>  
+          </header>
 
-          {
-            tasks.length === 0 ? (
-              <EmptyToDoList />
-            ) : (
-              tasks.map(currentTask => (
-                <Task 
-                  task={currentTask}
-                  key={currentTask.content}
-                  onDeleteTask={onDeleteTask}
-                  onUpdateTaskList={onUpdateTaskList}
-                  handleSetCompletedTasks={onSetCompletedTasks}
-                />  
-              ))
-            )
-          }
+          {tasks.length === 0 ? (
+            <EmptyToDoList />
+          ) : (
+            tasks.map((currentTask) => (
+              <Task
+                task={currentTask}
+                key={currentTask.content}
+                onDeleteTask={onDeleteTask}
+                onUpdateTaskList={onUpdateTaskList}
+                handleSetCompletedTasks={onSetCompletedTasks}
+              />
+            ))
+          )}
         </section>
       </main>
     </>

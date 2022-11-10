@@ -6,22 +6,27 @@ import styles from './Task.module.css'
 import { TasksType } from '../../App'
 
 interface TaskProps {
-  task: TasksType;
-  onDeleteTask: (taskToDelete: string, isComplete: boolean) => void;
-  onUpdateTaskList: (taskText: string) => void;
-  handleSetCompletedTasks: (setTheTaskStatusTo: 'add' | 'remove') => void;
+  task: TasksType
+  onDeleteTask: (taskToDelete: string, isComplete: boolean) => void
+  onUpdateTaskList: (taskText: string) => void
+  handleSetCompletedTasks: (setTheTaskStatusTo: 'add' | 'remove') => void
 }
 
-export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTaskList }: TaskProps) {
-  const [ taskIsComplete, setTaskIsComplete ] = useState(task.isComplete)
+export function Task({
+  task,
+  onDeleteTask,
+  handleSetCompletedTasks,
+  onUpdateTaskList,
+}: TaskProps) {
+  const [taskIsComplete, setTaskIsComplete] = useState(task.isComplete)
 
   function handleStatusTaskChange() {
     if (!taskIsComplete) {
-        setTaskIsComplete(true)
-        handleSetCompletedTasks('add')
+      setTaskIsComplete(true)
+      handleSetCompletedTasks('add')
     } else if (taskIsComplete) {
-        setTaskIsComplete(false)
-        handleSetCompletedTasks('remove')
+      setTaskIsComplete(false)
+      handleSetCompletedTasks('remove')
     }
 
     handleUpdateTaskList()
@@ -36,17 +41,14 @@ export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTask
   }
 
   return (
-    <div className={taskIsComplete ? styles.taskComplete : styles.task }>
-      <div 
-        className={styles.checkbox}
-        onClick={handleStatusTaskChange}
-      >
-        <div><span>.</span></div>
+    <div className={taskIsComplete ? styles.taskComplete : styles.task}>
+      <div className={styles.checkbox} onClick={handleStatusTaskChange}>
+        <div>
+          <span>.</span>
+        </div>
       </div>
 
-      <p>
-        {task.content}
-      </p>  
+      <p>{task.content}</p>
 
       <button
         className={styles.deleteTaskButton}
@@ -55,6 +57,6 @@ export function Task({ task, onDeleteTask, handleSetCompletedTasks, onUpdateTask
       >
         <Trash size={18} />
       </button>
-    </div>  
+    </div>
   )
 }
