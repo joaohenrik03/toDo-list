@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  InvalidEvent,
-  useEffect,
-  useState,
-} from 'react'
+import { InvalidEvent, useEffect, useState } from 'react'
 import { Header } from './components/Header/Header'
 import { EmptyToDoList } from './components/EmptyToDoList/EmptyToDoList'
 import { Task } from './components/Task/Task'
@@ -12,6 +6,7 @@ import { Task } from './components/Task/Task'
 import { PlusCircle } from 'phosphor-react'
 
 import styles from './App.module.css'
+import { useForm } from 'react-hook-form'
 
 export interface TasksType {
   content: string
@@ -19,6 +14,8 @@ export interface TasksType {
 }
 
 export function App() {
+  const { register, handleSubmit, reset } = useForm()
+
   const [tasks, setTasks] = useState<TasksType[]>(() => {
     const tasksInLocalStorage = localStorage.getItem('@to-do:tasks-2.0.0')
 
@@ -41,8 +38,6 @@ export function App() {
     }
   })
 
-  const [newTaskText, setNewTaskText] = useState('')
-
   useEffect(() => {
     const tasksJson = JSON.stringify(tasks)
 
@@ -58,22 +53,15 @@ export function App() {
     )
   }, [completedTaskCounter])
 
-  function handleChangeNewTaskText(event: ChangeEvent<HTMLInputElement>) {
-    event.target.setCustomValidity('')
-    setNewTaskText(event.target.value)
-  }
-
-  function handleCreateNewTask(event: FormEvent) {
-    event.preventDefault()
-
+  function handleCreateNewTask(data: any) {
     const newTask = {
-      content: newTaskText,
+      content: data.newTaskText,
       isComplete: false,
     }
 
     setTasks((prevState) => [...prevState, newTask])
 
-    setNewTaskText('')
+    reset()
   }
 
   function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>) {
@@ -121,14 +109,16 @@ export function App() {
       <Header />
 
       <main className={styles.main}>
-        <form onSubmit={handleCreateNewTask} className={styles.form}>
+        <form
+          onSubmit={handleSubmit(handleCreateNewTask)}
+          className={styles.form}
+        >
           <input
             required
             type="text"
             placeholder="Adicione uma nova tarefa"
-            value={newTaskText}
-            onChange={handleChangeNewTaskText}
             onInvalid={handleNewTaskInvalid}
+            {...register('newTaskText')}
           />
 
           <button type="submit">
@@ -147,11 +137,9 @@ export function App() {
             <div>
               <p>Concluídas</p>
               <span>
-                {
-                  tasks.length > 0
+                {tasks.length > 0
                   ? `${completedTaskCounter} de ${tasks.length}`
-                  : `${completedTaskCounter}`
-                }
+                  : `${completedTaskCounter}`}
               </span>
             </div>
           </header>
