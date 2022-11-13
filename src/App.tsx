@@ -1,4 +1,4 @@
-import { InvalidEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from './components/Header/Header'
 import { EmptyToDoList } from './components/EmptyToDoList/EmptyToDoList'
 import { Task } from './components/Task/Task'
@@ -13,8 +13,16 @@ export interface TasksType {
   isComplete: boolean
 }
 
+interface CreateNewTaskData {
+  newTaskText: string
+}
+
 export function App() {
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit, reset } = useForm<CreateNewTaskData>({
+    defaultValues: {
+      newTaskText: '',
+    },
+  })
 
   const [tasks, setTasks] = useState<TasksType[]>(() => {
     const tasksInLocalStorage = localStorage.getItem('@to-do:tasks-2.0.0')
@@ -53,7 +61,7 @@ export function App() {
     )
   }, [completedTaskCounter])
 
-  function handleCreateNewTask(data: any) {
+  function handleCreateNewTask(data: CreateNewTaskData) {
     const newTask = {
       content: data.newTaskText,
       isComplete: false,
@@ -62,10 +70,6 @@ export function App() {
     setTasks((prevState) => [...prevState, newTask])
 
     reset()
-  }
-
-  function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>) {
-    event.target.setCustomValidity('Preencha o campo com uma tarefa!')
   }
 
   function onDeleteTask(taskToDelete: string, isComplete: boolean) {
@@ -117,7 +121,6 @@ export function App() {
             required
             type="text"
             placeholder="Adicione uma nova tarefa"
-            onInvalid={handleNewTaskInvalid}
             {...register('newTaskText')}
           />
 
